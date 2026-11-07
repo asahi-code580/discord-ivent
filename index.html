@@ -1,0 +1,857 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Game Community Event</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: #0d1018;
+  color: #f5f6fa;
+  font-family: Arial, sans-serif;
+}
+
+button, input, select {
+  font: inherit;
+}
+
+header {
+  height: 75px;
+  padding: 0 7%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #151925;
+  border-bottom: 1px solid #292e3d;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.logo {
+  font-size: 19px;
+  font-weight: bold;
+  letter-spacing: 1px;
+  color: #9aaaff;
+}
+
+.header-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 8px;
+  padding: 11px 17px;
+  font-weight: bold;
+}
+
+.lang-btn, .admin-btn {
+  background: #272d3d;
+  color: white;
+}
+
+.primary {
+  background: #697cff;
+  color: white;
+}
+
+.primary:hover {
+  background: #8391ff;
+}
+
+.hero {
+  text-align: center;
+  padding: 100px 20px 85px;
+  background:
+    radial-gradient(ellipse at 50% 0%, #303d75 0%, #171c2d 45%, #0d1018 80%);
+}
+
+.hero .tag {
+  color: #aab6ff;
+  font-size: 12px;
+  letter-spacing: 3px;
+}
+
+.hero h1 {
+  font-size: clamp(36px, 7vw, 68px);
+  margin: 22px 0;
+  letter-spacing: -2px;
+}
+
+.hero h1 span {
+  color: #899bff;
+}
+
+.hero p {
+  color: #b8bfd2;
+  line-height: 1.8;
+}
+
+.hero button {
+  margin-top: 30px;
+  padding: 15px 30px;
+}
+
+.container {
+  width: 86%;
+  max-width: 1100px;
+  margin: auto;
+}
+
+section {
+  padding: 65px 0;
+}
+
+.section-title {
+  font-size: 27px;
+  margin-bottom: 25px;
+}
+
+.section-sub {
+  color: #8e97ad;
+  margin-top: -15px;
+  margin-bottom: 25px;
+}
+
+.stats, .cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+  gap: 18px;
+}
+
+.card {
+  background: #171d2b;
+  border: 1px solid #2b3346;
+  border-radius: 13px;
+  padding: 24px;
+}
+
+.stat-number {
+  font-size: 34px;
+  font-weight: bold;
+  color: #94a5ff;
+  margin: 12px 0;
+}
+
+.muted {
+  color: #9ca5bb;
+  font-size: 14px;
+}
+
+input, select {
+  width: 100%;
+  background: #0f1420;
+  border: 1px solid #343e55;
+  color: white;
+  padding: 13px;
+  border-radius: 8px;
+  margin: 9px 0 16px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  color: #c4cbe0;
+}
+
+form button {
+  width: 100%;
+  margin-top: 5px;
+}
+
+.notice {
+  color: #a9b5ff;
+  margin-top: 14px;
+  font-size: 14px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+th, td {
+  padding: 15px 10px;
+  border-bottom: 1px solid #30384b;
+  font-size: 14px;
+}
+
+th {
+  color: #aab7ff;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+.admin-panel {
+  display: none;
+  background: #1a2030;
+  border: 1px solid #5669b7;
+  border-radius: 15px;
+  padding: 25px;
+  margin-top: 30px;
+}
+
+.admin-panel.active {
+  display: block;
+}
+
+.admin-panel h3 {
+  margin: 20px 0 12px;
+  color: #a8b6ff;
+}
+
+.danger {
+  background: #a63d52;
+  color: white;
+  padding: 8px 12px;
+}
+
+.secondary {
+  background: #303a55;
+  color: white;
+  padding: 8px 12px;
+}
+
+footer {
+  background: #151925;
+  padding: 30px;
+  text-align: center;
+  color: #8b94a9;
+  font-size: 13px;
+}
+
+#message {
+  margin-top: 10px;
+  color: #9fb0ff;
+}
+
+@media(max-width:600px) {
+  header {
+    padding: 0 4%;
+  }
+
+  .logo {
+    font-size: 14px;
+  }
+
+  .header-right button {
+    padding: 9px;
+    font-size: 11px;
+  }
+
+  .container {
+    width: 90%;
+  }
+
+  section {
+    padding: 45px 0;
+  }
+
+  .hero {
+    padding: 75px 15px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">GAME COMMUNITY</div>
+
+  <div class="header-right">
+    <button class="lang-btn" onclick="toggleLanguage()" id="langButton">
+      English
+    </button>
+    <button class="admin-btn" onclick="adminLogin()" data-i18n="admin">
+      Admin
+    </button>
+  </div>
+</header>
+
+<div class="hero">
+  <div class="tag">GLOBAL GAMING COMMUNITY</div>
+
+  <h1>
+    <span data-i18n="hero1">PLAY TOGETHER.</span><br>
+    <span data-i18n="hero2">MAKE FRIENDS.</span>
+  </h1>
+
+  <p data-i18n="heroDesc">
+    世界中のプレイヤーとつながろう。<br>
+    一緒にゲームを楽しもう！
+  </p>
+
+  <button class="primary" onclick="goRegister()" data-i18n="join">
+    イベントに参加する
+  </button>
+</div>
+
+<main class="container">
+
+<section>
+  <h2 class="section-title" data-i18n="overview">EVENT OVERVIEW</h2>
+
+  <div class="stats">
+    <div class="card">
+      <div class="muted" data-i18n="participants">参加人数</div>
+      <div class="stat-number" id="participantCount">0</div>
+      <div class="muted" data-i18n="people">人が参加中</div>
+    </div>
+
+    <div class="card">
+      <div class="muted" data-i18n="eventStatus">イベント状況</div>
+      <div class="stat-number" id="status">WAITING</div>
+      <div class="muted" data-i18n="statusDesc">開催までお待ちください</div>
+    </div>
+
+    <div class="card">
+      <div class="muted" data-i18n="countdownTitle">開催まで</div>
+      <div class="stat-number" id="countdown">--:--:--</div>
+      <div class="muted" id="eventDate">2026/12/25 20:00</div>
+    </div>
+  </div>
+</section>
+
+<section id="register">
+  <h2 class="section-title" data-i18n="registration">EVENT REGISTRATION</h2>
+  <p class="section-sub" data-i18n="regDesc">
+    必要事項を入力してイベントに参加しよう！
+  </p>
+
+  <div class="card">
+    <form id="registerForm">
+
+      <label data-i18n="username">プレイヤー名</label>
+      <input id="playerName" maxlength="30" required
+        placeholder="Your name">
+
+      <label data-i18n="discordName">Discordユーザー名</label>
+      <input id="discordName" maxlength="50" required
+        placeholder="Discord username">
+
+      <label data-i18n="game">好きなゲーム</label>
+      <input id="gameName" maxlength="40" required
+        placeholder="Your favorite game">
+
+      <button class="primary" type="submit" data-i18n="registerButton">
+        参加登録する
+      </button>
+
+      <div id="message" role="status"></div>
+    </form>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title" data-i18n="ranking">
+    🏆 LEADERBOARD
+  </h2>
+
+  <p class="section-sub" data-i18n="rankingDesc">
+    イベントポイントランキング
+  </p>
+
+  <div class="card table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th data-i18n="player">プレイヤー</th>
+          <th data-i18n="favoriteGame">ゲーム</th>
+          <th data-i18n="points">ポイント</th>
+        </tr>
+      </thead>
+      <tbody id="rankingBody"></tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title" data-i18n="rules">EVENT RULES</h2>
+
+  <div class="cards">
+    <div class="card">
+      <h3>01</h3>
+      <p data-i18n="rule1">みんなで仲良く楽しもう！</p>
+    </div>
+
+    <div class="card">
+      <h3>02</h3>
+      <p data-i18n="rule2">他の参加者を尊重しよう。</p>
+    </div>
+
+    <div class="card">
+      <h3>03</h3>
+      <p data-i18n="rule3">運営スタッフの指示に従おう。</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="section-title" data-i18n="discordTitle">
+    DISCORD COMMUNITY
+  </h2>
+
+  <div class="card" style="text-align:center">
+    <p class="muted" data-i18n="discordDesc">
+      Discordサーバーに参加してイベント情報をチェック！
+    </p>
+
+    <a id="discordLink"
+       href="https://discord.gg/WAYEf6ESzK"
+       target="_blank"
+       rel="noopener noreferrer"
+       style="display:inline-block;margin-top:20px;text-decoration:none">
+      <button class="primary" data-i18n="discordButton">
+        Discordに参加する
+      </button>
+    </a>
+  </div>
+</section>
+
+<!-- ADMIN PANEL -->
+<div class="admin-panel" id="adminPanel">
+
+  <h2 data-i18n="adminTitle">ADMIN DASHBOARD</h2>
+
+  <p class="muted" data-i18n="adminDesc">
+    管理者専用コントロールパネル
+  </p>
+
+  <h3 data-i18n="eventSettings">イベント設定</h3>
+
+  <label data-i18n="dateLabel">開催日時</label>
+  <input type="datetime-local" id="newEventDate">
+
+  <button class="primary" onclick="saveEventDate()"
+    data-i18n="saveDate">日時を保存</button>
+
+  <h3 data-i18n="memberManagement">参加者管理</h3>
+
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th data-i18n="player">プレイヤー</th>
+          <th data-i18n="points">ポイント</th>
+          <th data-i18n="actions">操作</th>
+        </tr>
+      </thead>
+      <tbody id="adminMembers"></tbody>
+    </table>
+  </div>
+
+  <h3 data-i18n="notification">イベント通知</h3>
+
+  <button class="secondary" onclick="enableNotifications()"
+    data-i18n="enableNotification">
+    通知を許可する
+  </button>
+
+  <h3 data-i18n="adminActions">管理者操作</h3>
+
+  <button class="danger" onclick="adminLogout()"
+    data-i18n="logout">管理者ログアウト</button>
+
+</div>
+
+</main>
+
+<footer>
+  GAME COMMUNITY EVENT © 2026
+</footer>
+
+<script>
+
+// ==========================
+// LANGUAGE
+// ==========================
+
+let language = localStorage.getItem("eventLanguage") || "ja";
+
+const translations = {
+  ja: {
+    admin:"管理者", hero1:"一緒に遊ぼう。", hero2:"友達を作ろう。",
+    heroDesc:"世界中のプレイヤーとつながろう。<br>一緒にゲームを楽しもう！",
+    join:"イベントに参加する", overview:"イベント概要",
+    participants:"参加人数", people:"人が参加中",
+    eventStatus:"イベント状況", statusDesc:"開催までお待ちください",
+    countdownTitle:"開催まで", registration:"イベント参加登録",
+    regDesc:"必要事項を入力してイベントに参加しよう！",
+    username:"プレイヤー名", discordName:"Discordユーザー名",
+    game:"好きなゲーム", registerButton:"参加登録する",
+    ranking:"🏆 ランキング", rankingDesc:"イベントポイントランキング",
+    player:"プレイヤー", favoriteGame:"ゲーム", points:"ポイント",
+    rules:"イベントルール", rule1:"みんなで仲良く楽しもう！",
+    rule2:"他の参加者を尊重しよう。",
+    rule3:"運営スタッフの指示に従おう。",
+    discordTitle:"Discordコミュニティ",
+    discordDesc:"Discordサーバーに参加してイベント情報をチェック！",
+    discordButton:"Discordに参加する",
+    adminTitle:"管理者ダッシュボード",
+    adminDesc:"管理者専用コントロールパネル",
+    eventSettings:"イベント設定", dateLabel:"開催日時",
+    saveDate:"日時を保存", memberManagement:"参加者管理",
+    actions:"操作", notification:"イベント通知",
+    enableNotification:"通知を許可する",
+    adminActions:"管理者操作", logout:"管理者ログアウト",
+    success:"参加登録が完了しました！",
+    duplicate:"このDiscord名は既に登録されています。",
+    login:"管理者パスワードを入力してください。",
+    wrong:"パスワードが違います。",
+    remove:"削除", add:"+10点", started:"開催中！",
+    waiting:"開催前", ended:"終了しました",
+    permission:"通知が許可されました。",
+    noPermission:"通知を許可できませんでした。",
+    dateSaved:"開催日時を保存しました。",
+    invalidDate:"有効な日時を入力してください。"
+  },
+  en: {
+    admin:"Admin", hero1:"PLAY TOGETHER.", hero2:"MAKE FRIENDS.",
+    heroDesc:"Connect with players around the world.<br>Let's enjoy gaming together!",
+    join:"Join Event", overview:"EVENT OVERVIEW",
+    participants:"Participants", people:"Players registered",
+    eventStatus:"Event Status", statusDesc:"Waiting for the event",
+    countdownTitle:"Starts in", registration:"EVENT REGISTRATION",
+    regDesc:"Fill in your information to join!",
+    username:"Player Name", discordName:"Discord Username",
+    game:"Favorite Game", registerButton:"Register Now",
+    ranking:"🏆 LEADERBOARD", rankingDesc:"Event points ranking",
+    player:"Player", favoriteGame:"Game", points:"Points",
+    rules:"EVENT RULES", rule1:"Have fun together!",
+    rule2:"Respect other participants.",
+    rule3:"Follow the event staff's instructions.",
+    discordTitle:"DISCORD COMMUNITY",
+    discordDesc:"Join our Discord server for event updates!",
+    discordButton:"Join Discord",
+    adminTitle:"ADMIN DASHBOARD",
+    adminDesc:"Administrator control panel",
+    eventSettings:"Event Settings", dateLabel:"Event Date",
+    saveDate:"Save Date", memberManagement:"Manage Participants",
+    actions:"Actions", notification:"Event Notifications",
+    enableNotification:"Enable Notifications",
+    adminActions:"Admin Actions", logout:"Admin Logout",
+    success:"Registration successful!",
+    duplicate:"This Discord username is already registered.",
+    login:"Enter administrator password.",
+    wrong:"Incorrect password.",
+    remove:"Delete", add:"+10 Points", started:"LIVE NOW!",
+    waiting:"Upcoming", ended:"Event ended",
+    permission:"Notifications enabled.",
+    noPermission:"Notification permission denied.",
+    dateSaved:"Event date saved.",
+    invalidDate:"Please enter a valid date."
+  }
+};
+
+function t(key) {
+  return translations[language][key] || key;
+}
+
+function applyLanguage() {
+  document.documentElement.lang = language;
+
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const key = el.dataset.i18n;
+    el.innerHTML = t(key);
+  });
+
+  document.getElementById("langButton").textContent =
+    language === "ja" ? "English" : "日本語";
+
+  render();
+}
+
+function toggleLanguage() {
+  language = language === "ja" ? "en" : "ja";
+  localStorage.setItem("eventLanguage", language);
+  applyLanguage();
+}
+
+// ==========================
+// DATA
+// ==========================
+
+let members = JSON.parse(
+  localStorage.getItem("eventMembers") || "[]"
+);
+
+let eventTime = localStorage.getItem("eventTime") ||
+  "2026-12-25T20:00";
+
+function saveMembers() {
+  localStorage.setItem("eventMembers", JSON.stringify(members));
+}
+
+function saveEvent() {
+  localStorage.setItem("eventTime", eventTime);
+}
+
+// ==========================
+// REGISTRATION
+// ==========================
+
+document.getElementById("registerForm")
+.addEventListener("submit", function(e) {
+
+  e.preventDefault();
+
+  const name = document.getElementById("playerName").value.trim();
+  const discord = document.getElementById("discordName").value.trim();
+  const game = document.getElementById("gameName").value.trim();
+
+  if (!name || !discord || !game) return;
+
+  const exists = members.some(
+    m => m.discord.toLowerCase() === discord.toLowerCase()
+  );
+
+  if (exists) {
+    document.getElementById("message").textContent = t("duplicate");
+    return;
+  }
+
+  members.push({
+    id: crypto.randomUUID(),
+    name,
+    discord,
+    game,
+    points: 0
+  });
+
+  saveMembers();
+  render();
+
+  document.getElementById("registerForm").reset();
+  document.getElementById("message").textContent = t("success");
+});
+
+// ==========================
+// RENDER
+// ==========================
+
+function render() {
+
+  document.getElementById("participantCount").textContent =
+    members.length;
+
+  const ranking = [...members].sort(
+    (a,b) => b.points - a.points
+  );
+
+  document.getElementById("rankingBody").innerHTML =
+    ranking.map((m,i) => `
+      <tr>
+        <td>${i === 0 ? "🥇" : i === 1 ? "🥈" : i === 2 ? "🥉" : i+1}</td>
+        <td>${escapeHTML(m.name)}</td>
+        <td>${escapeHTML(m.game)}</td>
+        <td>${m.points}</td>
+      </tr>
+    `).join("") || `
+      <tr><td colspan="4">-</td></tr>
+    `;
+
+  document.getElementById("adminMembers").innerHTML =
+    members.map(m => `
+      <tr>
+        <td>${escapeHTML(m.name)}</td>
+        <td>${m.points}</td>
+        <td>
+          <button class="secondary"
+            onclick="changePoints('${m.id}',10)">
+            ${t("add")}
+          </button>
+          <button class="danger"
+            onclick="removeMember('${m.id}')">
+            ${t("remove")}
+          </button>
+        </td>
+      </tr>
+    `).join("");
+
+  document.getElementById("eventDate").textContent =
+    new Date(eventTime).toLocaleString(
+      language === "ja" ? "ja-JP" : "en-US"
+    );
+}
+
+function escapeHTML(value) {
+  return String(value).replace(/[&<>"']/g, c => ({
+    "&":"&amp;", "<":"&lt;", ">":"&gt;",
+    '"':"&quot;", "'":"&#39;"
+  })[c]);
+}
+
+// ==========================
+// ADMIN
+// ==========================
+
+// デモ用パスワード。
+// 公開サイトでは必ずサーバー側認証に変更してください。
+const ADMIN_PASSWORD = "Asahi20170703@yio";
+
+function adminLogin() {
+  const password = prompt(t("login"));
+
+  if (password === null) return;
+
+  if (password === ADMIN_PASSWORD) {
+    document.getElementById("adminPanel")
+      .classList.add("active");
+    render();
+  } else {
+    alert(t("wrong"));
+  }
+}
+
+function adminLogout() {
+  document.getElementById("adminPanel")
+    .classList.remove("active");
+}
+
+function changePoints(id, amount) {
+  const member = members.find(m => m.id === id);
+  if (!member) return;
+
+  member.points += amount;
+  saveMembers();
+  render();
+}
+
+function removeMember(id) {
+  if (!confirm(language === "ja"
+    ? "この参加者を削除しますか？"
+    : "Delete this participant?")) return;
+
+  members = members.filter(m => m.id !== id);
+  saveMembers();
+  render();
+}
+
+// ==========================
+// EVENT DATE
+// ==========================
+
+function saveEventDate() {
+  const value = document.getElementById("newEventDate").value;
+
+  if (!value || !Number.isFinite(new Date(value).getTime())) {
+    alert(t("invalidDate"));
+    return;
+  }
+
+  eventTime = value;
+  saveEvent();
+  render();
+  updateCountdown();
+
+  document.getElementById("newEventDate").value = "";
+  alert(t("dateSaved"));
+}
+
+// ==========================
+// COUNTDOWN
+// ==========================
+
+let notified = false;
+
+function updateCountdown() {
+
+  const now = Date.now();
+  const target = new Date(eventTime).getTime();
+  const distance = target - now;
+
+  const countdown = document.getElementById("countdown");
+  const status = document.getElementById("status");
+
+  if (distance <= 0) {
+    countdown.textContent = "00:00:00";
+    status.textContent = t("started");
+
+    if (!notified && Notification.permission === "granted") {
+      new Notification(
+        language === "ja" ? "イベント開始！" : "Event Started!",
+        {
+          body: language === "ja"
+            ? "ゲーム交流会が始まりました！"
+            : "The gaming event has started!"
+        }
+      );
+
+      notified = true;
+    }
+
+    return;
+  }
+
+  status.textContent = t("waiting");
+
+  const days = Math.floor(distance / 86400000);
+  const hours = Math.floor(distance / 3600000) % 24;
+  const minutes = Math.floor(distance / 60000) % 60;
+  const seconds = Math.floor(distance / 1000) % 60;
+
+  countdown.textContent =
+    `${days}d ${hours}h ${minutes}m ${seconds}s`;
+}
+
+// ==========================
+// NOTIFICATIONS
+// ==========================
+
+async function enableNotifications() {
+
+  if (!("Notification" in window)) {
+    alert("Notifications are not supported.");
+    return;
+  }
+
+  const result = await Notification.requestPermission();
+
+  alert(
+    result === "granted"
+      ? t("permission")
+      : t("noPermission")
+  );
+}
+
+// ==========================
+// NAVIGATION
+// ==========================
+
+function goRegister() {
+  document.getElementById("register")
+    .scrollIntoView({behavior:"smooth"});
+}
+
+// ==========================
+// START
+// ==========================
+
+document.getElementById("newEventDate").value =
+  eventTime;
+
+applyLanguage();
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+</script>
+</body>
+</html>
